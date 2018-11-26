@@ -8,13 +8,13 @@
 	"php": ">=7.0.10",
         "laravel/lumen-framework": "5.5.*",
         "vlucas/phpdotenv": "~2.2",
-        "lgouttefange/beavor": "dev-file_generation_core_separation",
-        "heroku/heroku-buildpack-php": "^146.0"
+        "lgouttefange/beavor": "dev-file_generation_core_separation"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "phpunit/phpunit": "~6.0",
-        "mockery/mockery": "~0.9"
+        "mockery/mockery": "~0.9",
+	"heroku/heroku-buildpack-php": "^146.0"
     },
     "autoload": {
         "psr-4": {

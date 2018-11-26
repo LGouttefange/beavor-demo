@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d919a8453b3f36c83b294b28d3747e98",
+    "content-hash": "99ce91538b14292947658c01cfa23911",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -1301,7 +1301,7 @@
                 }
             ],
             "description": "Lightweight library to cast array/std classes (generally as a result fo an api response) to a DTO class",
-            "time": "2018-11-25 18:44:56"
+            "time": "2018-11-25T18:44:56+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4250,7 +4250,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "7.0.10"
+        "php": ">=7.0.10"
     },
     "platform-dev": [],
     "platform-overrides": {

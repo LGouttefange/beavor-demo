@@ -14,13 +14,14 @@
 $router->get('/', function () use ($router) {
     return view("main")->render();
 });
-$router->get('/beavor', function(\Illuminate\Http\Request $request) use($router){
+$router->post('/beavor', function(\Illuminate\Http\Request $request) use($router){
     $data = (new \Beavor\Helpers\DataExtractor)->getValue($request->json);
-    $classes = (new \Beavor\Actions\BuildClass)->buildRootClass($data, "Class", "BeavorDemo");
+    $classes = (new \Beavor\Actions\BuildClass)->buildRootClass($data, $request->class ?: "Berry", $request->namespace ?: "PokemonDontGo\ApiModels");
     $classesResponse = array_map(function(\Nette\PhpGenerator\ClassType $classType){
+        $namespace = $classType->getNamespace();
         return [
           'text' => $classType->getNamespace()->getName() . "\\" . $classType->getName(),
-          'content' => (string) $classType,
+          'content' => "<?php\n\r" . $namespace  .(string) $classType,
         ];
     }, $classes);
     return new \Illuminate\Http\JsonResponse($classesResponse);

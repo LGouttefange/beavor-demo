@@ -8,17 +8,25 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/monokai.min.css" integrity="sha256-f1pe1glzqtZBNSOEV8RzLjSURph11H7Ieum3EVhASKw=" crossorigin="anonymous" />
     <link rel="stylesheet" href="/css/bootstrap-treeview.min.css">
-    <title>Document</title>
+    <title>Beavor</title>
 </head>
 <body>
 
 
-<h1>Beavor</h1>
+<h1 class="mb-5">Beavor : never have to json_decode() again</h1>
 <div class="container-fluid">
     <div class="row">
         <div class="col col-sm-3">
-                <textarea name="json" id="json" cols="30" rows="10" class="container-fluid" style="height: 80vh">
-                    {!! '{
+            <div class="form-group">
+                <label for="class">Class</label>
+                    <input type="text" class="form-control" id="class" placeholder="Berry" value="Berry">
+            </div>
+            <div class="form-group">
+                <label for="namespace">Namespace</label>
+                    <input type="text" class="form-control" id="namespace" placeholder="PokemonDontGo\ApiModels" value="PokemonDontGo\ApiModels">
+            </div>
+                <textarea name="json" id="json" cols="30" rows="10" class="container-fluid" style="height: 60vh">
+{!! '{
   "id": 1,
   "name": "cheri",
   "growth_time": 3,
@@ -50,7 +58,10 @@
   }
 }' !!}
                 </textarea>
-            <button id="OK">OK</button>
+            <button id="OK" class="btn btn-success btn-lg btn-block mt-1" >Generate classes</button>
+            <code class="php mt-1">
+                (new \Beavor\Objify)->make(<span data-namespace="namespace">PokemonDontGo\ApiModels</span>\<span data-class="class">Class</span>::class, $json));
+            </code>
         </div>
         <div class="col">
             <div class="row">
@@ -168,17 +179,19 @@
             }
         ]
     });
-    $('#OK').click(function () {
+    var updateJson = function () {
         $.ajax({
             url: "/beavor",
-            type: "get",
+            type: "post",
             data: {
-                json: JSON.minify($("#json").val())
+                json: JSON.minify($("#json").val()),
+                namespace: $('#namespace').val(),
+                class: $("#class").val(),
             }
         })
             .then(function (classes) {
                 $('#tree').treeview({
-                    data: classes
+                    data: classes.reverse()
                 });
                 treeview.on('nodeSelected', function (event, data) {
                     $('#code').text(data.content);
@@ -186,7 +199,17 @@
                         hljs.highlightBlock(block);
                     });
                 });
-            });
-    });
+                var treeViewObject = treeview.treeview(true);
+                treeViewObject.selectNode(treeViewObject.getNode(0));
+            })
+            .then(updateSnippet);
+    };
+    $('#OK').click(updateJson);
+    function updateSnippet() {
+        $("*[data-class]").text($('#class').val());
+        $("*[data-namespace]").text($('#namespace').val());
+    }
+    updateSnippet();
+    updateJson();
 </script>
 </html>
